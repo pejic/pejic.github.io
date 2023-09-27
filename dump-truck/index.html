@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Redirect to Dump Truck (and close)</title>
+    <script>
+wnd = null;
+function openWindow() {
+  wnd = window.open("https://dump-truck.appspot.com/usecase-cc/cc.html", "_blank");
+  window.setTimeout(() => wnd.close(), 20 * 1000);
+}
+    </script>
+  </head>
+  <body>
+    <p>Opens the credit card form window and closes it after 20 seconds.</p>
+    <input type="button" onclick="openWindow()" value="Let's go!" />
+  </body>
+</html>
+
