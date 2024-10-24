@@ -37,7 +37,8 @@ async function onBuyClicked(windowLocalStorageIdentifier) {
     await instrumentResponse.complete('success')
     console.log(instrumentResponse);
     info(windowLocalStorageIdentifier + ' payment response: ' +
-      objectToString(instrumentResponse));
+      objectToString(instrumentResponse) + '\n' + 'Extensions: ' +
+      extensionsOutputToString(instrumentResponse.details));
   } catch (err) {
     error(err);
   }
@@ -79,5 +80,18 @@ if (PublicKeyCredential) {
   }
 } else {
   error('PublicKeyCredential interface not detected');
+}
+
+function extensionsOutputToString(credentialInfoAssertion) {
+  const clientExtensionResults =
+      credentialInfoAssertion.getClientExtensionResults();
+  if (clientExtensionResults.payment !== undefined &&
+      clientExtensionResults.payment.browser_bound_signature !== undefined) {
+    clientExtensionResults.payment.browser_bound_signature =
+        arrayBufferToBase64(clientExtensionResults.payment.browser_bound_signature);
+  }
+  return JSON.stringify(
+      clientExtensionResults, /*replacer=*/ undefined,
+      /*space=*/ 2);
 }
 
