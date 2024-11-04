@@ -90,6 +90,14 @@ function extensionsOutputToString(credentialInfoAssertion) {
     clientExtensionResults.payment.browser_bound_signature =
         arrayBufferToBase64(clientExtensionResults.payment.browser_bound_signature);
   }
+  if (clientExtensionResults.payment !== undefined &&
+      clientExtensionResults.payment.browser_bound_signatures !== undefined) {
+    for (sig of clientExtensionResults.payment.browser_bound_signatures) {
+      if (sig.output !== undefined) {
+        sig.output = arrayBufferToBase64(sig.output);
+      }
+    }
+  }
   return JSON.stringify(
       clientExtensionResults, /*replacer=*/ undefined,
       /*space=*/ 2);
