@@ -11,7 +11,8 @@ async function createPaymentCredential(windowLocalStorageIdentifier) {
     window.localStorage.setItem(windowLocalStorageIdentifier,
       arrayBufferToBase64(publicKeyCredential.rawId));
     info(windowLocalStorageIdentifier + ' enrolled: ' + objectToString(
-      publicKeyCredential));
+      publicKeyCredential) + '\n' + 'Extensions: ' +
+      extensionsOutputToString(publicKeyCredential));
   } catch (err) {
     error(err);
   }
