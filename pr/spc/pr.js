@@ -12,7 +12,7 @@ async function createPaymentCredential(windowLocalStorageIdentifier) {
       arrayBufferToBase64(publicKeyCredential.rawId));
     info(windowLocalStorageIdentifier + ' enrolled: ' + objectToString(
       publicKeyCredential) + '\n' + 'Extensions: ' +
-      extensionsOutputToString(instrumentResponse.details)));
+      extensionsOutputToString(instrumentResponse.details));
   } catch (err) {
     error(err);
   }
