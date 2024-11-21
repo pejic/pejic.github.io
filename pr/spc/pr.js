@@ -89,8 +89,8 @@ function extensionsOutputToString(credentialInfoAssertion) {
   if (clientExtensionResults.payment !== undefined &&
       clientExtensionResults.payment.browser_bound_signatures !== undefined) {
     for (sig of clientExtensionResults.payment.browser_bound_signatures) {
-      if (sig.output !== undefined) {
-        sig.output = arrayBufferToBase64(sig.output);
+      if (sig.signature_output !== undefined) {
+        sig.signature_output = arrayBufferToBase64(sig.signature_output);
       }
     }
   }
