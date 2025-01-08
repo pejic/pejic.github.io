@@ -87,6 +87,13 @@ function extensionsOutputToString(credentialInfoAssertion) {
   const clientExtensionResults =
       credentialInfoAssertion.getClientExtensionResults();
   if (clientExtensionResults.payment !== undefined &&
+      clientExtensionResults.payment.browser_bound_signature !== undefined) {
+      var browser_bound_signature = clientExtensionResults.payment.browser_bound_signature;
+      browser_bound_signature.signature_output =
+          arrayBufferToBase64(browser_bound_signature.signature_output);
+  }
+  // Decode sequences of browser bound signatures (which were output by early prototypes).
+  if (clientExtensionResults.payment !== undefined &&
       clientExtensionResults.payment.browser_bound_signatures !== undefined) {
     for (sig of clientExtensionResults.payment.browser_bound_signatures) {
       if (sig.signature_output !== undefined) {
