@@ -101,8 +101,6 @@ function extensionsOutputToString(credentialInfoAssertion) {
       }
     }
   }
-  return JSON.stringify(
-      clientExtensionResults, /*replacer=*/ undefined,
-      /*space=*/ 2);
+  return JSON.stringify(clientExtensionResults, /*replacer=*/ undefined, /*space=*/ 2);
 }
 
