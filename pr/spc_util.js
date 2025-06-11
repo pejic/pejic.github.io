@@ -108,11 +108,13 @@ function createSPCPaymentRequest(spcData) {
   if (spcData.instrument === undefined)
     spcData.instrument = {};
   if (spcData.instrument.displayName === undefined)
-    spcData.instrument.displayName = 'Troy ···· 1234';
+    spcData.instrument.displayName = 'т��т - Troy ···· 1234 It\'s long. Very long. It\'s long. Very long. It\'s long. Very long. It\'s long. Very long. It\'s long. Very long. It\'s long. Very long. It\'s long. Very long. It\'s long. Very long. It\'s long. Very long. It\'s long. Very long. It\'s long. Very long. It\'s long. Very long. It\'s long. Very long. It\'s long. Very long. It\'s long. Very long. It\'s long. Very long. It\'s long. Very long.';
   if (spcData.instrument.icon === undefined)
     spcData.instrument.icon = 'https://rsolomakhin.github.io/static/troy-card-art.png';
   if (spcData.timeout === undefined)
     spcData.timeout = 60000;
+  if (spcData.instrument.details === undefined)
+    spcData.instrument.details = 'Instrument Details';
   // We only set a default payeeOrigin if *both* payeeName and payeeOrigin are
   // not set, as the spec deliberately allows either/or to be null.
   if (!('payeeName' in spcData) && !('payeeOrigin' in spcData))
