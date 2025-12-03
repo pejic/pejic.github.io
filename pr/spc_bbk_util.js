@@ -116,6 +116,16 @@ async function assertBrowserBoundKeySignature(
         convertDERSignatureToSubtle(new Uint8Array(signatureArray));
     assert_true(await crypto.subtle.verify(
         {name: 'ECDSA', hash: 'SHA-256'}, key, signature, clientDataJSON));
+  } else if (keyType == cose_key_type_rsa) {
+    // Verify the signature for an RS256 signature scheme.
+    const browserBoundPublicKeyCoseKey =
+        parseCoseRsaPublicKey(browserBoundPublicKeyCoseKeyEncoded);
+    const jwkPublicKey = coseRsaObjectToJWK(browserBoundPublicKeyCoseKey);
+    const key = await crypto.subtle.importKey(
+        'jwk', jwkPublicKey, {name: 'RSASSA-PKCS1-v1_5', hash: 'SHA-256'},
+        /*extractable=*/ false, ['verify']);
+    const signature = new Uint8Array(signatureArray);
+    assert_true(await crypto.subtle.verify(
+        {name: 'RSASSA-PKCS1-v1_5'}, key, signature, clientDataJSON));
   }
-  // TODO: Verify the signature in case of an RS256 signature scheme.
 }

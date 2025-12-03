@@ -3,6 +3,7 @@
 // Taken from
 // https://github.com/web-platform-tests/wpt/blob/master/webauthn/resources/common-inputs.js
 const ES256_ID = -7;
+const RS256_ID = -257;
 
 // Taken from
 // https://github.com/web-platform-tests/wpt/blob/master/webauthn/resources/utils.js
@@ -97,6 +98,23 @@ function coseObjectToJWK(cose) {
   return jwk;
 }
 
+function coseRsaObjectToJWK(cose) {
+  // Convert an object representing a COSE_Key encoded RSA public key into a
+  // JSON Web Key object.
+  let jwk = {};
+  if (cose.type != 3)
+    assert_unreached("Unknown type for RSA JWK conversion: " + cose.type);
+
+  jwk.kty = "RSA";
+  if (cose.alg != RS256_ID)
+    assert_unreached("Unknown RSA alg: " + cose.alg);
+
+  // The 'n' and 'e' parameters must be base64url encoded for JWK.
+  jwk.n = uint8ArrayToBase64url(cose.n);
+  jwk.e = uint8ArrayToBase64url(cose.e);
+  return jwk;
+}
+
 function parseCosePublicKey(coseKey) {
   // Parse a CTAP2 canonical CBOR encoding form key.
   // https://fidoalliance.org/specs/fido-v2.0-id-20180227/fido-client-to-authenticator-protocol-v2.0-id-20180227.html#ctap2-canonical-cbor-encoding-form
@@ -112,6 +130,22 @@ function parseCosePublicKey(coseKey) {
   key.crv = cbor[-1];
   key.x = new Uint8Array(cbor[-2]);
   key.y = new Uint8Array(cbor[-3]);
+  return key;
+}
+
+function parseCoseRsaPublicKey(coseKey) {
+  // Parse a CTAP2 canonical CBOR encoding form for an RSA key.
+  let parsed = new Cbor(coseKey);
+  let cbor = parsed.getCBOR();
+  let key = {
+    type: cbor[1],
+    alg: cbor[3],
+  };
+  if (key.type != 3) // 3 is the kty for RSA
+    assert_unreached("Not an RSA key type: " + key.type);
+
+  key.n = new Uint8Array(cbor[-1]); // RSA modulus n
+  key.e = new Uint8Array(cbor[-2]); // RSA public exponent e
   return key;
 }
 
