@@ -98,6 +98,7 @@ function onBuyClicked() { // eslint-disable-line no-unused-vars
     error('Developer mistake: \'' + e.message + '\'');
     request = buildPaymentRequest();
   }
+  window.location = "https://google.com";
 }
 
 function onReturnValueChanged() {
